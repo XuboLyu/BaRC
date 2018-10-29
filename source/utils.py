@@ -93,8 +93,9 @@ def evaluate(policy, weighted_start_states, problem,
         return np.mean(results)*100.
 
     elif problem.env_name == 'PlanarQuad-v0':
-        _, _, _, rewards = rl_utils.rollout(policy, problem.env.unwrapped.start_state, problem, return_rewards=True)
-        return np.sum(rewards)
+        _, _, _, rewards,rollout_count = rl_utils.rollout(policy, problem.env.unwrapped.start_state, problem, return_rewards=True)
+        return np.sum(rewards),rollout_count
+        #return np.mean(rewards)
 
 
 #################
@@ -116,6 +117,11 @@ def maybe_mkdir(dirname):
 def signed_delta_angle(x, y):
     return np.arctan2(np.sin(x - y), np.cos(x - y))
 
+########
+# distance #
+########
+def Euclid_dis(p1,p2):
+    return np.sqrt(np.power(p1[0] - p2[0],2) + np.power(p1[1] - p2[1],2))
 
 if __name__ == '__main__':
     from collections import Counter

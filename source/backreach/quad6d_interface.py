@@ -17,14 +17,23 @@ class Quad6DBackreachEngine:
     # Starts and sets up the MATLAB engine that runs in the background.
     def __init__(self):
         self.eng = matlab.engine.start_matlab();
-        self.eng.cd("/home/borisi/boris-jam-backreach/code/backreach", nargout=0);
-        self.eng.eval("addpath(genpath('/home/borisi/matlab-ToolboxLS/Kernel'));", nargout=0);
-        self.eng.eval("addpath(genpath('/home/borisi/matlab-helperOC'));", nargout=0);
-        
+        #self.eng.cd("/home/borisi/boris-jam-backreach/code/backreach", nargout=0);
+        #self.eng.eval("addpath(genpath('/home/borisi/matlab-ToolboxLS/Kernel'));", nargout=0);
+        #self.eng.eval("addpath(genpath('/home/borisi/matlab-helperOC'));", nargout=0);
+
+        #self.eng.cd("/Users/lvxubo/Desktop/BaRC/source/backreach", nargout=0);
+        #self.eng.eval("addpath(genpath('/Users/lvxubo/Desktop/ToolboxLS/Kernel'));", nargout=0);
+        #self.eng.eval("addpath(genpath('/Users/lvxubo/Desktop/helperOC'));", nargout=0);
+        self.eng.cd("/home/xlv/Desktop/BaRC/source/backreach",nargout=0);
+        self.eng.eval("addpath(genpath('/home/xlv/Desktop/toolboxls/Kernel'));", nargout=0);
+        self.eng.eval("addpath(genpath('/home/xlv/Desktop/helperOC'));", nargout=0);
 
     # Setting up variables that will be used in subsequent calls
+    # Note: here I increase the tMax value (from 0.1 to 0.3)- the time horizon when computing BRS, to increase the difficulty of subtasks
+    # Note: during learning procedure. since I found the learning curve in early stage is too steep, means agent has no
+    # Note: difficulty finishing early subtasks.
     def reset_variables(self, problem, plot_dir, 
-                        tMax=0.1, nPoints=251.):
+                        tMax=0.15, nPoints=251.):
         self.eng.eval("global gX gY gW gVxPhi gVyPhi;", nargout=0);
 
         self.sampled_points = None
@@ -45,12 +54,15 @@ class Quad6DBackreachEngine:
         x_low, vx_low, y_low, vy_low, phi_low, w_low = self.problem.state_space.low;
         self.gMin = matlab.double([[x_low], [vx_low], [y_low], [vy_low], [phi_low], [w_low]]);
 
+
         x_high, vx_high, y_high, vy_high, phi_high, w_high = self.problem.state_space.high;
         self.gMax = matlab.double([[x_high], [vx_high], [y_high], [vy_high], [phi_high], [w_high]]);
 
+
         self.nPoints = nPoints
         self.gN = matlab.double((self.nPoints * np.ones((self.problem.state_dims, 1))).tolist());
-        
+
+
         self.axis_coords = [np.linspace(self.gMin[i][0], self.gMax[i][0], nPoints) for i in range(self.problem.state_dims)]
 
         xg_lower = self.problem.env.unwrapped.xg_lower
@@ -330,6 +342,14 @@ class Quad6DBackreachEngine:
                 potential_samples = np.random.uniform(low=self.actual_boundary[0], high=self.actual_boundary[1], size=(size, self.problem.state_dims))
                 membership = self.check_membership(potential_samples)
                 member_samples = potential_samples[membership == True]
+
+                # NOTE: new code for putting sampling restriction on roll angle, [-0.174, 0.174] -> [-10',10']
+                print('sample with specific steady states',flush=True)
+                flag1 = member_samples[:,PHI_IDX] >= -0.174
+                flag2 = member_samples[:,PHI_IDX] <= 0.174
+                member_samples = member_samples[np.logical_and(flag1,flag2)]
+
+
                 num_sampled = member_samples.shape[0]
                 if num_sampled == 0:
                     continue
@@ -342,6 +362,7 @@ class Quad6DBackreachEngine:
             return self.sampled_points
 
         elif method == 'contour_edges':
+            # TODO: find ways to put sampling restriction on 'contour_edge' strategy
             # Start by sampling 5x the points from a 20% larger box
             pct_added = 0.20
             self.actual_boundary = np.zeros((2, self.problem.state_dims))
@@ -364,6 +385,10 @@ class Quad6DBackreachEngine:
             # Then, evaluate their sampling weights
             weights = np.abs(self.evaluate_value_function(potential_samples))
             weights = np.reciprocal(weights)
+
+            # Note: here I modify the weight method, from 'w = 1/value -> w = 1/sqrt(value)'
+            weights = np.power(weights, 0.5)
+
             weights /= np.sum(weights)
 
             sampled_idxs = np.random.choice(potential_samples.shape[0], 

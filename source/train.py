@@ -10,15 +10,31 @@ from time import strftime
 from random_utils import fixed_random_seed
 from plotting_with_theta_sections import visualize_starts, visualize_rollouts, plot_performance
 
+import pickle as pkl
 import os
 import argparse
+
+import myenv
+
+import seaborn as sns
+import matplotlib as mpl
+
+import matplotlib.pyplot as plt
+
+#plt.switch_backend('TkAgg')
+
+# In each print function, I deleted the symbol 'flush = True'
+# test for remote change
+
 parser = argparse.ArgumentParser()
 parser.add_argument("type", help="what kind of curriculum to employ",
                     type=str)
 parser.add_argument("--debug", help="whether to print loads of information and create plots or not",
                     action="store_true")
-parser.add_argument("--brs_sample", help="how to sample from a backreachable set",
-                    type=str, default='contour_edges')
+#parser.add_argument("--brs_sample", help="how to sample from a backreachable set",
+#                    type=str, default='contour_edges')
+
+parser.add_argument("--brs_sample", help="how to sample from a backreachable set",type=str, default='contour_edges')
 parser.add_argument("--run_name", help="name of run that determines where outputs are saved",
                     type=str, default=None)
 parser.add_argument("--zero_goal_v", help="whether to make the goal have zero initial velocity",
@@ -49,12 +65,15 @@ else:
 RUN_DIR = os.path.join(os.getcwd(), 'runs', args.gym_env + '_' + run_dir + '_' + strftime('%d-%b-%Y_%H-%M-%S'))
 FIGURES_DIR = os.path.join(RUN_DIR, 'figures')
 DATA_DIR = os.path.join(RUN_DIR, 'data')
+# Note: here I add an dir for save policy in every algo iteration
+# POLICY_DIR = os.path.join(RUN_DIR,'policy')
 MODEL_DIR = os.path.join(DATA_DIR, 'model')
 
 if args.gym_env == 'DrivingOrigin-v0':
     X_IDX = 0
     Y_IDX = 1
     from backreach.car5d_interface import Car5DBackreachEngine as BackreachEngine
+
 elif args.gym_env == 'PlanarQuad-v0':
     X_IDX = 0
     Y_IDX = 2
@@ -78,6 +97,7 @@ def train_step(weighted_start_states, policy, train_algo, problem,
                             max_iters=num_ppo_iters)
 
 
+
 def train(problem,              # Problem object, describing the task.
           initial_policy,       # Initial policy.
           goal_state,           # Goal state (s^g).
@@ -85,7 +105,7 @@ def train(problem,              # Problem object, describing the task.
           N_new=200, N_old=100, # Num new and old start states to sample.
           R_min=0.5, R_max=1.0, # Reward bounds defining what a "good" start state is.
           num_iters=100,        # Number of iterations of training to run.
-          num_ppo_iters=20,     # Number of iterations of PPO training to run per train step.
+          num_ppo_iters=60,     # Number of iterations of PPO training to run per train step.
           curriculum_strategy=random, 
           train_algo=ppo, 
           start_distribution=uniform,
@@ -97,7 +117,7 @@ def train(problem,              # Problem object, describing the task.
                              filepath=os.path.join(DATA_DIR, 'data_%s.csv' % args.type),
                              data_dir=DATA_DIR)
 
-    print(locals(), flush=True);
+    print(locals());
     if curriculum_strategy in [random]:
         return train_pointwise(**locals());
     elif curriculum_strategy in [backward_reachable]:
@@ -109,6 +129,7 @@ def train(problem,              # Problem object, describing the task.
 
 
 # "PPO only" because we're not doing any curriculum at all.
+# FIXME: PPO training process occur 'nan' reward, figure out meaning of epMeanLen,epMeanReward.
 def train_ppo_only(**kwargs):
     """Train a policy with no curriculum strategy, only the training algo.
     """
@@ -126,6 +147,9 @@ def train_ppo_only(**kwargs):
     debug = kwargs["debug"];
     data_logger = kwargs["data_logger"];
 
+    gl_ppo_rewards = []
+    gl_overall_perf = []
+
     pi_i = initial_policy
     overall_perf = list()
     ppo_lens, ppo_rews = list(), list()
@@ -133,14 +157,17 @@ def train_ppo_only(**kwargs):
     i = 0
     ppo_iter_count = 0;
     pi_i.save_model(MODEL_DIR, iteration=i);
-    while i < num_iters*num_ppo_iters:
+    #while i < num_iters*num_ppo_iters:
+    while i < num_iters:
     # while perf_metric < args.finish_threshold and i < num_iters*num_ppo_iters:
-        print('Training Iteration %d' % i, flush=True)
+        # Here I delete 'flush=True'
+        print('Training Iteration %d' % i)
         data_logger.update_indices({"overall_iter": i, "ppo_iter": ppo_iter_count})
         pi_i, rewards_map, ep_mean_lens, ep_mean_rews = train_step(full_start_dist, pi_i, train_algo, problem, num_ppo_iters=num_ppo_iters)
 
         ppo_lens.extend(ep_mean_lens)
         ppo_rews.extend(ep_mean_rews)
+
 
         perf_metric = evaluate(pi_i, 
                              full_start_dist, 
@@ -161,10 +188,21 @@ def train_ppo_only(**kwargs):
         # Incrementing our algorithm's loop counter.
         # Here, these are the same since the algorithm is PPO itself.
         ppo_iter_count += num_ppo_iters;
-        i += num_ppo_iters;
+        i += 1;
+        #i += num_ppo_iters;
 
         data_logger.save_to_file();
         pi_i.save_model(MODEL_DIR, iteration=i);
+
+    # NOTE: modified for save global data
+    gl_ppo_rewards = ppo_rews
+    gl_overall_perf = overall_perf
+    plot_performance(range(len(gl_ppo_rewards)), gl_ppo_rewards, ylabel=r'Avg Reward per training step',
+                     xlabel='Iteration',
+                     figfile=os.path.join(FIGURES_DIR, 'global_ppo_rewards'), pickle=True)
+    plot_performance(range(len(gl_overall_perf)), gl_overall_perf, ylabel=r'Reward from start state',
+                     xlabel='Iteration',
+                     figfile=os.path.join(FIGURES_DIR, 'global_overall_perf'), pickle=True)
 
     return pi_i
 
@@ -191,6 +229,9 @@ def train_pointwise(**kwargs):
     debug = kwargs["debug"];
     data_logger = kwargs["data_logger"];
 
+    gl_ppo_rewards = []
+    gl_overall_perf = []
+
     # Keyword arguments for the curriculum strategy.
     curric_kwargs = defaultdict(lambda: None)
 
@@ -208,7 +249,7 @@ def train_pointwise(**kwargs):
     pi_i.save_model(MODEL_DIR, iteration=i);
     while i < num_iters:
     # while perf_metric < args.finish_threshold and i < num_iters:
-        print('Training Iteration %d' % i, flush=True)
+        print('Training Iteration %d' % i)
         data_logger.update_indices({"overall_iter": i, "ppo_iter": ppo_iter_count})
 
         new_starts = curriculum_strategy(starts, N_new, problem)
@@ -263,6 +304,8 @@ def train_pointwise(**kwargs):
             plot_performance(range(len(ppo_lens)), ppo_lens, ylabel=r'Avg. Episode Length', xlabel='PPO Iteration', figfile=os.path.join(FIGURES_DIR, 'ppo_avg_lens_iter_%d' % i))
             plot_performance(range(len(ppo_rews)), ppo_rews, ylabel=r'Avg. Episode Reward', xlabel='PPO Iteration', figfile=os.path.join(FIGURES_DIR, 'ppo_avg_rews_iter_%d' % i))
 
+
+
         data_logger.save_to_npy('all_starts', all_starts);
         data_logger.save_to_npy('old_starts', old_starts);
         data_logger.save_to_npy('selected_starts', starts);
@@ -292,6 +335,7 @@ def train_pointwise(**kwargs):
                               'ppo_perf': [pct_successful], 'ppo_lens': ep_mean_lens, 'ppo_rews': ep_mean_rews},
                               update_indices=['ppo_iter'])
 
+
         if debug:
             plot_performance(range(len(overall_perf)), overall_perf, ylabel=r'% Successful Starts', xlabel='Iteration', figfile=os.path.join(FIGURES_DIR, 'overall_perf'))
             plot_performance(range(len(overall_area)), overall_area, ylabel=r'% State Space Sampled', xlabel='Iteration', figfile=os.path.join(FIGURES_DIR, 'overall_area'))
@@ -304,11 +348,24 @@ def train_pointwise(**kwargs):
         data_logger.save_to_file();
         pi_i.save_model(MODEL_DIR, iteration=i);
 
+    # NOTE: modified for save global data
+    gl_ppo_rewards  = ppo_rews
+    gl_overall_perf = overall_perf
+    plot_performance(range(len(gl_ppo_rewards)), gl_ppo_rewards, ylabel=r'Avg Reward per training step',
+                     xlabel='Iteration',
+                     figfile=os.path.join(FIGURES_DIR, 'global_ppo_rewards'), pickle=True)
+    plot_performance(range(len(gl_overall_perf)), gl_overall_perf, ylabel=r'Reward from start stage',
+                     xlabel='Iteration',
+                     figfile=os.path.join(FIGURES_DIR, 'global_overall_perf'), pickle=True)
+
     return pi_i
 
 
 # "Gridwise" because the unit of reachibility here is grids of the state space.
 # Our backward reachibility method is grid-based.
+# TODO: figure out why there are some sudden changes back to -600 reward?
+
+
 def train_gridwise(**kwargs):
     """Train a policy with a specific curriculum 
     strategy (backward reachable, etc), 
@@ -328,6 +385,10 @@ def train_gridwise(**kwargs):
     start_distribution = kwargs["start_distribution"];
     debug = kwargs["debug"];
     data_logger = kwargs["data_logger"];
+
+    gl_ppo_rewards = []
+    gl_overall_perf = []
+
 
     # Keyword arguments for the curriculum strategy.
     curric_kwargs = defaultdict(lambda: None)
@@ -351,9 +412,15 @@ def train_gridwise(**kwargs):
     perf_metric = 0.0
     i = 0
     pi_i.save_model(MODEL_DIR, iteration=i);
+    # Note: here is a list contains distance for each algo iter --> [[size = 300]*num_iter]
+    gl_samples_dist = []
+
+    # Note: open an figure object outside of loop
+    plt.figure()
+    plt.ion()
     while i < num_iters:
     # while perf_metric < args.finish_threshold and i < num_iters:
-        print('Training Iteration %d' % i, flush=True);
+        print('Training Iteration %d' % i);
         data_logger.update_indices({"overall_iter": i})
 
         if 'curr_train_iter' in curric_kwargs:
@@ -368,6 +435,7 @@ def train_gridwise(**kwargs):
         pct_successful = 0.0;
         iter_count = 0;
         ppo_perf, ppo_lens, ppo_rews = list(), list(), list()
+        sample_dis = list();
         # Think of this as "while (haven't passed this grade)"
         while pct_successful < 0.5:
             data_logger.update_indices({"ppo_iter": iter_count})
@@ -383,7 +451,7 @@ def train_gridwise(**kwargs):
                                  figfile=os.path.join(FIGURES_DIR, 'curric_starts_iter_%d_ppo_iter_%d' % (i, iter_count)))
 
             if args.variation == 2 and br_engine.check_membership(np.array([problem.env.unwrapped.start_state])):
-                print('Variation 2 condition train.py!', flush=True)
+                print('Variation 2 condition train.py!')
                 from_replay = list()
                 starts = [problem.env.unwrapped.start_state]
             else:
@@ -407,6 +475,13 @@ def train_gridwise(**kwargs):
 
             rho_i = list(zip(starts, start_distribution(starts)))
             pi_i, rewards_map, ep_mean_lens, ep_mean_rews = train_step(rho_i, pi_i, train_algo, problem, num_ppo_iters=num_ppo_iters)
+
+
+            # Note: here we compute distance between samples' pos and start's pos in one algo iter
+            for ind in range(len(starts)):
+                tmp_p1 = (starts[ind][0],starts[ind][2])
+                tmp_p2 = (full_start_dist[0][0][0],full_start_dist[0][0][2])
+                sample_dis.append(Euclid_dis(tmp_p1,tmp_p2))
 
             if debug:
                 if problem.env_name == 'DrivingOrigin-v0':
@@ -436,6 +511,10 @@ def train_gridwise(**kwargs):
                 plot_performance(range(len(ppo_lens)), ppo_lens, ylabel=r'Avg. Episode Length', xlabel='PPO Iteration', figfile=os.path.join(FIGURES_DIR, 'ppo_avg_lens_iter_%d' % i))
                 plot_performance(range(len(ppo_rews)), ppo_rews, ylabel=r'Avg. Episode Reward', xlabel='PPO Iteration', figfile=os.path.join(FIGURES_DIR, 'ppo_avg_rews_iter_%d' % i))
 
+            # NOTE: modified for save global data
+            for it in range(len(ppo_rews)):
+                gl_ppo_rewards.append(ppo_rews[it])
+
             data_logger.save_to_npy('all_starts', all_starts);
             data_logger.save_to_npy('old_starts', old_starts);
             data_logger.save_to_npy('selected_starts', starts);
@@ -445,17 +524,21 @@ def train_gridwise(**kwargs):
             iter_count += num_ppo_iters;
             print('[PPO Iter %d]: %.2f%% Successful Starts (%d / %d)' % (iter_count, pct_successful*100., successful_starts, total_unique_starts));
 
+
+
         # This final update is so we get the last iter_count correctly after jumping out of the while loop.
         data_logger.update_indices({"ppo_iter": iter_count})
 
         # Ok, we've graduated!
         old_starts.extend(starts)
-        perf_metric = evaluate(pi_i, 
+        perf_metric,rollout_count = evaluate(pi_i,
                              full_start_dist, 
                              problem, 
                              debug=debug, 
                              figfile=os.path.join(FIGURES_DIR, 'eval_iter_%d' % i))
 
+        # Note: here I save trained policy in each algo iter into pk file.
+        # pkl.dump(pi_i, open(os.path.join(POLICY_DIR, 'policy_iter_%d' % i), 'wb'))
         # Format is (min_x, max_x, min_y, max_y)
         all_starts_bbox = bounding_box(all_starts)
         min_x = problem.state_space.low[X_IDX]
@@ -468,6 +551,29 @@ def train_gridwise(**kwargs):
         overall_area.append(area_coverage*100.)
 
         data_logger.add_rows({'overall_perf': [perf_metric], 'overall_area': [area_coverage]})
+
+        # NOTE: modified for save global data
+        gl_overall_perf = overall_perf
+        gl_overall_area = overall_area
+        gl_samples_dist.append(sample_dis)
+
+        # NOTE: show the samples distribution stage by stage
+        if i>0 and not (i+1) % 5:
+            plt.cla()
+            show_dis = []
+
+            for ind in range(5 * (i // 5), len(gl_samples_dist)):
+                show_dis.extend(gl_samples_dist[ind])
+
+            sns_plot = sns.distplot(show_dis,rug=True)
+            sns_plot.figure.savefig(FIGURES_DIR+'/dist_iter'+ str(i) + '.png')
+            print("saving the distance plot")
+
+            # sns.distplot(show_dis, rug=True)
+            #print("showing the distance distribution")
+            plt.pause(0.1)
+
+
 
         if debug:
             plot_performance(range(len(overall_perf)), overall_perf, ylabel=r'% Successful Starts', xlabel='Iteration', figfile=os.path.join(FIGURES_DIR, 'overall_perf'))
@@ -482,14 +588,26 @@ def train_gridwise(**kwargs):
         pi_i.save_model(MODEL_DIR, iteration=i);
 
     # Done!
+    # NOTE: global plotting performance
+    plot_performance(range(len(gl_ppo_rewards)), gl_ppo_rewards, ylabel=r'Avg Reward per training step', xlabel='Iteration',
+                     figfile=os.path.join(FIGURES_DIR, 'global_ppo_rewards'),pickle = True)
+    plot_performance(range(len(gl_overall_perf)), gl_overall_perf, ylabel=r'Avg Eval Reward from start state', xlabel='Iteration',
+                     figfile=os.path.join(FIGURES_DIR, 'global_overall_perf'),pickle = True)
+    plot_performance(range(len(gl_overall_area)), gl_overall_area, ylabel=r'State Space Sampled',xlabel='Iteration',
+                     figfile=os.path.join(FIGURES_DIR, 'gl_overall_area'), pickle=True)
+
     if curriculum_strategy == backward_reachable:
         br_engine.stop();
         del br_engine;
+
+    plt.ioff()
 
     return pi_i
 
 
 if __name__ == '__main__':
+
+
     # Using context managers for random seed management.
     with fixed_random_seed(args.seed):
         maybe_mkdir(RUN_DIR);
@@ -505,18 +623,21 @@ if __name__ == '__main__':
 
             if args.gym_env == 'DrivingOrigin-v0':
                 num_iters = 100
-                print('Goal State:', problem.goal_state, flush=True)
+                print('Goal State:', problem.goal_state)
                 full_starts = problem.sample_behind_goal(problem.goal_state,
                                                          num_states=100, 
                                                          zero_idxs=[3, 4])
             elif args.gym_env == 'PlanarQuad-v0':
-                num_iters = 40
+                # NOTE: HERE I increase the iteration nums to see if the final performance is stable.
+                num_iters = 50
                 full_starts = [problem.env.unwrapped.start_state]
                 problem.env.unwrapped.set_hovering_goal(args.hover_at_end)
 
+        #  start state and its' distribution
         full_start_dist = list(zip(full_starts, uniform(full_starts)))
 
-        ppo.create_session(num_cpu=1)
+        #ppo.create_session(num_cpu=1)
+        ppo.create_session()
         initial_policy = ppo.create_policy('pi', problem)
         ppo.initialize()
 
@@ -529,14 +650,20 @@ if __name__ == '__main__':
         else:
             raise ValueError("%s is an unknown curriculum strategy!" % args.type);
 
+
+
         trained_policy = train(problem=problem,
                                num_iters=num_iters,
                                R_min=problem.R_min, R_max=problem.R_max,
                                initial_policy=initial_policy,
+
                                goal_state=problem.goal_state,
                                full_start_dist=full_start_dist,
                                curriculum_strategy=curr_strategy,
                                debug=args.debug)
 
         trained_policy.save_model(MODEL_DIR);
+        print("training done for " + args.type + " type")
+
+
         print('Done training!');

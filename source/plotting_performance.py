@@ -9,14 +9,15 @@ rc('font',**{'family':'serif'})
 
 import matplotlib.pyplot as plt
 import numpy as np
-
+import pickle as pkl
 DPI = 100
 
 def plot_performance(x, y, 
                      title=None, 
                      xlabel=None, 
                      ylabel=None,
-                     figfile=None):
+                     figfile=None,
+                     pickle = False):
     print('plot_performance', flush=True);
     fig, ax = plt.subplots()
 
@@ -30,6 +31,10 @@ def plot_performance(x, y,
 
     if ylabel is not None:
         ax.set_ylabel(ylabel)
+
+    # NOTE: new code for saving performance data
+    if pickle:
+        pkl.dump(fig,open(figfile,'wb'))
 
     if figfile is None:
         plt.show()

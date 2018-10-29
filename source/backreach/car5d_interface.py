@@ -16,9 +16,11 @@ class Car5DBackreachEngine:
     # Starts and sets up the MATLAB engine that runs in the background.
     def __init__(self):
         self.eng = matlab.engine.start_matlab();
-        self.eng.cd("/home/borisi/boris-jam-backreach/code/backreach", nargout=0);
-        self.eng.eval("addpath(genpath('/home/borisi/matlab-ToolboxLS/Kernel'));", nargout=0);
-        self.eng.eval("addpath(genpath('/home/borisi/matlab-helperOC'));", nargout=0);
+        #self.eng.cd("/home/borisi/boris-jam-backreach/code/backreach", nargout=0);
+        self.eng.cd("/Users/lvxubo/Desktop/BaRC/source/backreach",nargout=0)
+        #self.eng.eval("addpath(genpath('/home/borisi/matlab-ToolboxLS/Kernel'));", nargout=0);
+        self.eng.eval("addpath(genpath('/Users/lvxubo/Desktop/ToolboxLS/Kernel'))",nargout=0)
+        #self.eng.eval("addpath(genpath('/home/borisi/matlab-helperOC'));", nargout=0);
         
 
     # Setting up variables that will be used in subsequent calls

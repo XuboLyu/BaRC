@@ -7,6 +7,7 @@ class Problem(gym.Env):
 
     def __init__(self, env_name, zero_goal_v=False, disturbance=None):
         self.env_name = env_name
+        print("env_name:",env_name)
         self.env = gym.make(self.env_name)
         self.env.unwrapped.set_disturbance(disturbance)
 
