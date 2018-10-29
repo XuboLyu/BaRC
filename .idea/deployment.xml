@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" autoUpload="Always" serverName="xlv@cs-mars-01.cmpt.sfu.ca:22">
+    <serverData>
+      <paths name="xlv@cs-mars-01.cmpt.sfu.ca:22">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/xlv/Desktop/BaRC" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+    <option name="myAutoUpload" value="ALWAYS" />
+  </component>
+</project>
