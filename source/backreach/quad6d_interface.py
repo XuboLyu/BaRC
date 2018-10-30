@@ -387,10 +387,10 @@ class Quad6DBackreachEngine:
             weights = np.reciprocal(weights)
 
             # Note: here I modify the weight method, from 'w = 1/value -> w = 1/sqrt(value)'
+            # ------------------
             weights = np.power(weights, 0.5)
-
+            # ------------------
             weights /= np.sum(weights)
-
             sampled_idxs = np.random.choice(potential_samples.shape[0], 
                                             size=size,
                                             p=weights)

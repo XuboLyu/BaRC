@@ -65,8 +65,6 @@ else:
 RUN_DIR = os.path.join(os.getcwd(), 'runs', args.gym_env + '_' + run_dir + '_' + strftime('%d-%b-%Y_%H-%M-%S'))
 FIGURES_DIR = os.path.join(RUN_DIR, 'figures')
 DATA_DIR = os.path.join(RUN_DIR, 'data')
-# Note: here I add an dir for save policy in every algo iteration
-# POLICY_DIR = os.path.join(RUN_DIR,'policy')
 MODEL_DIR = os.path.join(DATA_DIR, 'model')
 
 if args.gym_env == 'DrivingOrigin-v0':
@@ -364,7 +362,7 @@ def train_pointwise(**kwargs):
 # "Gridwise" because the unit of reachibility here is grids of the state space.
 # Our backward reachibility method is grid-based.
 # TODO: figure out why there are some sudden changes back to -600 reward?
-
+# NOTE: answer for question above: overtraining(you have passed over the start state and still training)
 
 def train_gridwise(**kwargs):
     """Train a policy with a specific curriculum 
@@ -411,9 +409,7 @@ def train_gridwise(**kwargs):
     overall_perf, overall_area = list(), list()
     perf_metric = 0.0
     i = 0
-    pi_i.save_model(MODEL_DIR, iteration=i);
-    # Note: here is a list contains distance for each algo iter --> [[size = 300]*num_iter]
-    gl_samples_dist = []
+    pi_i.save_model(MODEL_DIR, iteration=i)
 
     # Note: open an figure object outside of loop
     plt.figure()
@@ -424,18 +420,23 @@ def train_gridwise(**kwargs):
         data_logger.update_indices({"overall_iter": i})
 
         if 'curr_train_iter' in curric_kwargs:
-            curric_kwargs['curr_train_iter'] = i;
+            curric_kwargs['curr_train_iter'] = i
 
         # I've split apart the following call into two separate ones.
         # new_starts = curriculum_strategy(starts, N_new, problem, **curric_kwargs)
         if curriculum_strategy == backward_reachable:
-            update_backward_reachable_set(starts, **curric_kwargs);
-            data_logger.save_to_npy('brs_targets', starts);
+            update_backward_reachable_set(starts, **curric_kwargs)
+            data_logger.save_to_npy('brs_targets', starts)
 
-        pct_successful = 0.0;
-        iter_count = 0;
+            # Note: here I also update the brs's projection on 'xy' plane and visualizing it.
+
+
+        pct_successful = 0.0
+        iter_count = 0
         ppo_perf, ppo_lens, ppo_rews = list(), list(), list()
-        sample_dis = list();
+
+        # A list for saving distance of all samples to start state in one single algo iter.
+        sample_dis = list()
         # Think of this as "while (haven't passed this grade)"
         while pct_successful < 0.5:
             data_logger.update_indices({"ppo_iter": iter_count})
@@ -477,11 +478,12 @@ def train_gridwise(**kwargs):
             pi_i, rewards_map, ep_mean_lens, ep_mean_rews = train_step(rho_i, pi_i, train_algo, problem, num_ppo_iters=num_ppo_iters)
 
 
-            # Note: here we compute distance between samples' pos and start's pos in one algo iter
+            # Note: here we compute distance between samples' pos and start's pos in each algo iter
             for ind in range(len(starts)):
                 tmp_p1 = (starts[ind][0],starts[ind][2])
                 tmp_p2 = (full_start_dist[0][0][0],full_start_dist[0][0][2])
                 sample_dis.append(Euclid_dis(tmp_p1,tmp_p2))
+
 
             if debug:
                 if problem.env_name == 'DrivingOrigin-v0':
@@ -555,18 +557,13 @@ def train_gridwise(**kwargs):
         # NOTE: modified for save global data
         gl_overall_perf = overall_perf
         gl_overall_area = overall_area
-        gl_samples_dist.append(sample_dis)
 
-        # NOTE: show the samples distribution stage by stage
-        if i>0 and not (i+1) % 5:
+        # NOTE: show the samples distribution at iter 0,5,10,15,...
+        if not i % 5:
             plt.cla()
-            show_dis = []
 
-            for ind in range(5 * (i // 5), len(gl_samples_dist)):
-                show_dis.extend(gl_samples_dist[ind])
-
-            sns_plot = sns.distplot(show_dis,rug=True)
-            sns_plot.figure.savefig(FIGURES_DIR+'/dist_iter'+ str(i) + '.png')
+            sns_plot = sns.distplot(sample_dis,rug=True)
+            sns_plot.figure.savefig(FIGURES_DIR+'/dist_iter_'+ str(i) + '.png')
             print("saving the distance plot")
 
             # sns.distplot(show_dis, rug=True)
@@ -582,7 +579,7 @@ def train_gridwise(**kwargs):
         print('[Overall Iter %d]: perf_metric = %.2f | Area Coverage = %.2f%%' % (i, perf_metric, area_coverage*100.));
 
         # Incrementing our algorithm's loop counter.
-        i += 1;
+        i += 1
 
         data_logger.save_to_file();
         pi_i.save_model(MODEL_DIR, iteration=i);
@@ -651,12 +648,13 @@ if __name__ == '__main__':
             raise ValueError("%s is an unknown curriculum strategy!" % args.type);
 
 
+        num_ppo_iters = 60
 
         trained_policy = train(problem=problem,
                                num_iters=num_iters,
+                               num_ppo_iters=num_ppo_iters,
                                R_min=problem.R_min, R_max=problem.R_max,
                                initial_policy=initial_policy,
-
                                goal_state=problem.goal_state,
                                full_start_dist=full_start_dist,
                                curriculum_strategy=curr_strategy,
@@ -665,5 +663,12 @@ if __name__ == '__main__':
         trained_policy.save_model(MODEL_DIR);
         print("training done for " + args.type + " type")
 
+        # Note: here I write a README file automatically in every training procedure for backup
+        readme = open(os.path.join(FIGURES_DIR,"README.txt"), 'w')
+        reminder = ["NUM_ITER = %d \n" %num_iters,"PPO_ITER = %d \n" %num_ppo_iters,"TIME_HORIZON = %f \n" %0.15,"STRATEGY = %s \n" %curr_strategy,
+                    "SAMPLE_STRATEGY = %s \n" %args.brs_sample,"ROLLOUT_COUNT_LIMIT:NONE \n","SAMPLING WEIGHT: need specified \n"]
+        readme.writelines(reminder)
+        readme.close()
+        print('Done training!')
 
-        print('Done training!');
+
