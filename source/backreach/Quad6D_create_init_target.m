@@ -4,12 +4,16 @@ function [targetX, targetY, targetW, targetVxPhi, targetVyPhi] = ...
 
 global gX gY gW gVxPhi gVyPhi;
 
+global gXY;
+
 %% Target and obstacles
 Xdim = 1;
 VxPhidims = [2 5];
 Ydim = 3;
 VyPhidims = [4 5];
 Wdim = 6;
+
+XYdims = [1 3];
 
 alreadyMade = sum(size(gX)) > 0;
 if ~alreadyMade
@@ -19,6 +23,8 @@ if ~alreadyMade
     gW = createGrid(gMin(Wdim), gMax(Wdim), gN(Wdim));
     gVxPhi = createGrid(gMin(VxPhidims), gMax(VxPhidims), gN(VxPhidims), 2);
     gVyPhi = createGrid(gMin(VyPhidims), gMax(VyPhidims), gN(VyPhidims), 2);
+
+    gXY = createGrid(gMin(XYdims), gMax(XYdims), gN(XYdims), 2);
 end
 
 %% Initial target set

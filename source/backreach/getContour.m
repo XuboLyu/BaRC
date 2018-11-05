@@ -25,6 +25,8 @@ if nargin < 4
   level = 0;
 end
 
+disp(g.vs{1});
+
 C = contourc(g.vs{1}, g.vs{2}, data(:, :, brs_idx)', [level level]);
 
 end

@@ -67,6 +67,8 @@ FIGURES_DIR = os.path.join(RUN_DIR, 'figures')
 DATA_DIR = os.path.join(RUN_DIR, 'data')
 MODEL_DIR = os.path.join(DATA_DIR, 'model')
 
+BRS_XY_DIR = os.path.join(FIGURES_DIR, 'brs_xy')
+
 if args.gym_env == 'DrivingOrigin-v0':
     X_IDX = 0
     Y_IDX = 1
@@ -428,7 +430,6 @@ def train_gridwise(**kwargs):
             update_backward_reachable_set(starts, **curric_kwargs)
             data_logger.save_to_npy('brs_targets', starts)
 
-            # Note: here I also update the brs's projection on 'xy' plane and visualizing it.
 
 
         pct_successful = 0.0
@@ -446,6 +447,8 @@ def train_gridwise(**kwargs):
 
                 if debug:
                     br_engine.visualize_grids(os.path.join(FIGURES_DIR, ''), '_iter_%d_ppo_iter_%d' % (i, iter_count))
+
+                br_engine.visualize_grid_for_xy(os.path.join(BRS_XY_DIR, ''), '_iter_%d_ppo_iter_%d' % (i, iter_count))
 
             if debug:
                 visualize_starts(new_starts, problem, 
@@ -612,6 +615,8 @@ if __name__ == '__main__':
         maybe_mkdir(FIGURES_DIR);
         maybe_mkdir(MODEL_DIR);
 
+        maybe_mkdir(BRS_XY_DIR)
+
         # Keeping dist same across runs for comparison.
         with fixed_random_seed(2018):
             problem = Problem(args.gym_env, 
@@ -626,7 +631,7 @@ if __name__ == '__main__':
                                                          zero_idxs=[3, 4])
             elif args.gym_env == 'PlanarQuad-v0':
                 # NOTE: HERE I increase the iteration nums to see if the final performance is stable.
-                num_iters = 50
+                num_iters = 40
                 full_starts = [problem.env.unwrapped.start_state]
                 problem.env.unwrapped.set_hovering_goal(args.hover_at_end)
 
@@ -648,7 +653,7 @@ if __name__ == '__main__':
             raise ValueError("%s is an unknown curriculum strategy!" % args.type);
 
 
-        num_ppo_iters = 60
+        num_ppo_iters = 50
 
         trained_policy = train(problem=problem,
                                num_iters=num_iters,

@@ -36,6 +36,8 @@ class Quad6DBackreachEngine:
                         tMax=0.15, nPoints=251.):
         self.eng.eval("global gX gY gW gVxPhi gVyPhi;", nargout=0);
 
+        self.eng.eval("global gXY;", nargout=0)
+
         self.sampled_points = None
         self.actual_boundary = None
         self.most_recent_br_sets = None
@@ -235,9 +237,19 @@ class Quad6DBackreachEngine:
                                        nargout=5);
         print('Quad6D_approx_RS end', flush=True);
 
+        a  = 1
+        print("a:",a)
+
+        # Note: Here I reconstruct subsystem 'xy' based on targetX and targetY
+        # --------
+        self.targetXY = self.eng.Quad6D_recons_xy(self.gMin, self.gMax, self.gN, targetX, targetY, self.tMax)
+        self.update_contour_bounds_for_xy(self.targetXY)
+        # --------
+
         self.most_recent_br_sets = (targetX, targetY, targetW, targetVxPhi, targetVyPhi)
         self.update_membership_functions(targetX, targetY, targetW, targetVxPhi, targetVyPhi)
         self.update_contour_bounds(targetX, targetY, targetW, targetVxPhi, targetVyPhi)
+
 
         print('update_and_compute_backward_reachable_set end', flush=True);
 
@@ -328,6 +340,17 @@ class Quad6DBackreachEngine:
                                         [max_x, max_vx, max_y, max_vy, max_phi, max_w]]);
         print('[X, VX, Y, VY, PHI, W] bounds are', self.contour_bounds, flush=True);
 
+    # Note: here I wrote a similar contour update function like the one above
+    # --------------------------------------------------------------------------------------------
+    def update_contour_bounds_for_xy(self, targetXY):
+        # Note: Remember in system decomposition of BaRC, there is no subsystem with state '(X,Y)'. This 'targetXY' is
+        # created by us specifically for visualizing the training process on xy plane.
+        # Note: purpose of '_rex' naming style is to be different with the existing variables 'max_x', 'min_x'.
+        whichTimeSliceToUse = targetXY.size[-1]
+        max_rex, min_rex, max_rey, min_rey = self.get_contour_bounds('gXY', targetXY, whichTimeSliceToUse)
+        self.contour_bounds_XY = np.array([[min_rex, min_rey], [max_rex, max_rey]])
+
+    # --------------------------------------------------------------------------------------------
 
     def sample_from_grid(self, size=1, method='uniform'):
         print('sample_from_grid, method =', method, flush=True);
@@ -388,7 +411,7 @@ class Quad6DBackreachEngine:
 
             # Note: here I modify the weight method, from 'w = 1/value -> w = 1/sqrt(value)'
             # ------------------
-            weights = np.power(weights, 0.5)
+            # weights = np.power(weights, 0.5)
             # ------------------
             weights /= np.sum(weights)
             sampled_idxs = np.random.choice(potential_samples.shape[0], 
@@ -401,6 +424,73 @@ class Quad6DBackreachEngine:
 
         else:
             raise ValueError('Unknown grid sampling method:', method);
+
+    def visualize_grid_for_xy(self,
+                        file_prefix='',
+                        file_suffix='',
+                        grid_title=None):
+        print('visualize grid for xy',flush=True)
+        grid_name = 'gXY'
+
+        if grid_title is None:
+            grid_title = 'BRS_XY'
+
+        #self.eng.eval("gdim = %s.dim;" % grid_name, nargout=0);
+        self.eng.eval("gdim = 2;", nargout = 0)
+        gdim = int(self.eng.workspace['gdim']);
+        if gdim == 1:
+            xlabel = grid_name[1]
+            ylabel = ''
+        elif gdim == 2:
+            xlabel = grid_name[1:3]
+            ylabel = grid_name[3:]
+
+        legend_items = list()
+        self.eng.eval("fig = figure;", nargout=0)
+
+
+
+        first_color = 'red'
+        self.eng.workspace['value_func'] = self.targetXY
+        self.eng.eval("extra.deleteLastPlot = false;", nargout=0)
+        self.eng.eval("visSetIm(%s, value_func, '%s', 0, extra); hold on;" % (grid_name, first_color), nargout=0)
+
+        plot_boundary_XY = self.contour_bounds_XY
+        self.eng.eval("rectangle('Position', [%f, %f, %f, %f])" % (plot_boundary_XY[0, 0],
+                                                                   plot_boundary_XY[0, 1],
+                                                                   plot_boundary_XY[1, 0] - plot_boundary_XY[0, 0],
+                                                                   plot_boundary_XY[1, 1] - plot_boundary_XY[0, 1]), nargout=0)
+
+        self.eng.plot(4, 0.75, 'Marker', 'diamond', 'MarkerSize', 15, 'MarkerFaceColor', 'magenta')
+        legend_items.append(("Contour Bounding Box", 'k'))
+        if self.sampled_points is not None:
+            x_scatter = matlab.double(self.sampled_points[:, X_IDX].tolist())
+            y_scatter = matlab.double(self.sampled_points[:, Y_IDX].tolist())
+            scatter_size = 5
+            self.eng.scatter(x_scatter, y_scatter, scatter_size, 'green', 'filled', nargout=0)
+            legend_items.append(("Sampled Points", 'fog'));
+
+        self.eng.eval("h = zeros(%d, 1);" % len(legend_items), nargout=0)
+        names_list = list()
+        for leg_idx, leg_item in enumerate(legend_items):
+            if leg_item[1] == 'fog':
+                self.eng.eval(
+                    "h(%d) = plot(NaN, NaN, 'o', 'MarkerFaceColor', 'g', 'MarkerEdgeColor', 'g');" % (leg_idx + 1),
+                    nargout=0)
+            else:
+                self.eng.eval("h(%d) = plot(NaN, NaN, '%s');" % (leg_idx + 1, leg_item[1]), nargout=0)
+
+            names_list.append("'%s'" % leg_item[0])
+
+        filename = file_prefix + grid_title + file_suffix
+        self.eng.eval("title('%s'); xlabel('%s'); ylabel('%s'); tightfig;" % (grid_title.replace('_', ' ') + ' Level = 0', xlabel, ylabel), nargout=0)
+        #self.eng.eval("legend(h, %s, 'Location', 'best');" % ','.join(names_list), nargout=0)
+        self.eng.eval("print(fig, '%s', '-dpdf', '-r300', '-noui');" % filename, nargout=0)
+        self.eng.eval("close(fig)", nargout=0)
+
+
+
+    print('visualize_grids end', flush=True)
 
 
     def visualize_grids(self, 

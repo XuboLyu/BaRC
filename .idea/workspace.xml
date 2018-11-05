@@ -2,11 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="26678e66-aff4-4c3a-a2f4-7cd2d71dc850" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/gym/.travis.yml" beforeDir="false" afterPath="$PROJECT_DIR$/gym/.travis.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gym/drivingOrigin.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gym/planarQuad.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/backreach/Quad6D_create_init_target.m" beforeDir="false" afterPath="$PROJECT_DIR$/source/backreach/Quad6D_create_init_target.m" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/backreach/getContour.m" beforeDir="false" afterPath="$PROJECT_DIR$/source/backreach/getContour.m" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/source/backreach/quad6d_interface.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/backreach/quad6d_interface.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/source/baselines" beforeDir="false" afterPath="$PROJECT_DIR$/source/baselines" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/source/eval.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/eval.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/source/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/source/train.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -20,8 +21,8 @@
     <SUITE FILE_PATH="coverage/BaRC$train__1_.coverage" NAME="train (1) Coverage Results" MODIFIED="1537476077172" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="/" />
     <SUITE FILE_PATH="coverage/BaRC$train_remote.coverage" NAME="train-remote Coverage Results" MODIFIED="1538539725081" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/source" />
     <SUITE FILE_PATH="coverage/BaRC$test.coverage" NAME="test Coverage Results" MODIFIED="1540425081854" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/source" />
-    <SUITE FILE_PATH="coverage/BaRC$train.coverage" NAME="train Coverage Results" MODIFIED="1540923336904" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/source" />
-    <SUITE FILE_PATH="coverage/BaRC$eval.coverage" NAME="eval Coverage Results" MODIFIED="1540353414080" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/source" />
+    <SUITE FILE_PATH="coverage/BaRC$train.coverage" NAME="train Coverage Results" MODIFIED="1541458417837" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/source" />
+    <SUITE FILE_PATH="coverage/BaRC$eval.coverage" NAME="eval Coverage Results" MODIFIED="1541461028967" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/source" />
   </component>
   <component name="DatabaseView">
     <option name="SHOW_INTERMEDIATE" value="true" />
@@ -42,12 +43,12 @@
       <file leaf-file-name="train.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/source/train.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="371">
-              <caret line="432" lean-forward="true" selection-start-line="432" selection-end-line="432" />
+            <state relative-caret-position="115">
+              <caret line="435" column="22" lean-forward="true" selection-start-line="435" selection-start-column="22" selection-end-line="435" selection-end-column="22" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
-                <element signature="e#5497#8594#0" />
-                <element signature="e#8776#15617#0" />
+                <element signature="e#5441#8538#0" />
+                <element signature="e#8720#15561#0" />
               </folding>
             </state>
           </provider>
@@ -56,8 +57,8 @@
       <file leaf-file-name="curriculum.py" pinned="false" current-in-tab="false">
         <entry file="file://$USER_HOME$/Library/Caches/PyCharm2018.1/remote_sources/-1110523131/-1802158183/curriculum.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="57" column="37" selection-start-line="57" selection-start-column="31" selection-end-line="57" selection-end-column="47" />
+            <state relative-caret-position="248">
+              <caret line="57" column="39" selection-start-line="57" selection-start-column="31" selection-end-line="57" selection-end-column="47" />
             </state>
           </provider>
         </entry>
@@ -65,15 +66,40 @@
       <file leaf-file-name="quad6d_interface.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/source/backreach/quad6d_interface.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="194" column="52" selection-start-line="194" selection-start-column="25" selection-end-line="194" selection-end-column="52" />
+            <state relative-caret-position="134">
+              <caret line="477" column="42" selection-start-line="477" selection-start-column="42" selection-end-line="477" selection-end-column="42" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Quad6D_approx_RS.m" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/source/backreach/Quad6D_approx_RS.m">
-          <provider selected="true" editor-type-id="text-editor" />
+      <file leaf-file-name="eval.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/source/eval.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="102">
+              <caret line="102" column="44" lean-forward="true" selection-start-line="102" selection-start-column="44" selection-end-line="102" selection-end-column="44" />
+              <folding>
+                <element signature="e#0#18#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="getContour.m" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/source/backreach/getContour.m">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="346">
+              <caret line="27" column="14" selection-start-line="27" selection-start-column="14" selection-end-line="27" selection-end-column="14" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Quad6D_recons_xy.m" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/source/backreach/Quad6D_recons_xy.m">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="214">
+              <caret line="22" selection-start-line="22" selection-end-line="22" />
+            </state>
+          </provider>
         </entry>
       </file>
     </leaf>
@@ -92,13 +118,25 @@
       <find>vf_loss</find>
       <find>MODEL_DIR</find>
       <find>train_algo</find>
-      <find>perf</find>
       <find>ppo_iter</find>
       <find>contour</find>
-      <find>perf_metric</find>
       <find>brs</find>
-      <find>BRS</find>
       <find>visualize</find>
+      <find>targetW</find>
+      <find>best</find>
+      <find>update_contour_bounds</find>
+      <find>boundary</find>
+      <find>contour_bounds</find>
+      <find>most_recent_br_sets</find>
+      <find>actual_boundary</find>
+      <find>perf_metric</find>
+      <find>sample</find>
+      <find>get_plot_bounds</find>
+      <find>perf</find>
+      <find>getContour</find>
+      <find>BRS</find>
+      <find>numBRSreturns</find>
+      <find>gVxPhi</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -110,12 +148,15 @@
         <option value="$PROJECT_DIR$/source/baselines/ppo1/mlp_policy.py" />
         <option value="$PROJECT_DIR$/source/baselines/ppo1/pposgd_simple.py" />
         <option value="$PROJECT_DIR$/source/rl/ppo.py" />
-        <option value="$PROJECT_DIR$/source/eval.py" />
         <option value="$PROJECT_DIR$/source/test.py" />
         <option value="&lt;43f9ee57-64e4-47ac-a35b-3714551a67f6&gt;/home/xlv/Desktop/BaRC/source/runs/PlanarQuad-v0_backreach_24-Oct-2018_20-15-50/figures/README" />
         <option value="&lt;43f9ee57-64e4-47ac-a35b-3714551a67f6&gt;/home/xlv/Desktop/BaRC/source/runs/PlanarQuad-v0_backreach_24-Oct-2018_23-25-22/figures/README" />
+        <option value="$PROJECT_DIR$/source/backreach/Quad6D_create_init_target.m" />
+        <option value="$PROJECT_DIR$/source/backreach/getContour.m" />
         <option value="$PROJECT_DIR$/source/backreach/quad6d_interface.py" />
+        <option value="$PROJECT_DIR$/source/backreach/Quad6D_recons_xy.m" />
         <option value="$PROJECT_DIR$/source/train.py" />
+        <option value="$PROJECT_DIR$/source/eval.py" />
       </list>
     </option>
   </component>
@@ -129,6 +170,7 @@
     <packageJsonPaths />
   </component>
   <component name="ProjectFrameBounds">
+    <option name="x" value="-8" />
     <option name="y" value="23" />
     <option name="width" value="1152" />
     <option name="height" value="644" />
@@ -142,6 +184,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -164,21 +207,6 @@
               <item name="BaRC" type="b2602c69:ProjectViewProjectNode" />
               <item name="BaRC" type="462c0819:PsiDirectoryNode" />
               <item name="source" type="462c0819:PsiDirectoryNode" />
-              <item name="backreach" type="462c0819:PsiDirectoryNode" />
-              <item name="quad6d_interface.py" type="8704e2dd:PyFileNode" />
-            </path>
-            <path>
-              <item name="BaRC" type="b2602c69:ProjectViewProjectNode" />
-              <item name="BaRC" type="462c0819:PsiDirectoryNode" />
-              <item name="source" type="462c0819:PsiDirectoryNode" />
-              <item name="backreach" type="462c0819:PsiDirectoryNode" />
-              <item name="quad6d_interface.py" type="8704e2dd:PyFileNode" />
-              <item name="Quad6DBackreachEngine" type="dd8bbb05:PyElementNode" />
-            </path>
-            <path>
-              <item name="BaRC" type="b2602c69:ProjectViewProjectNode" />
-              <item name="BaRC" type="462c0819:PsiDirectoryNode" />
-              <item name="source" type="462c0819:PsiDirectoryNode" />
               <item name="baselines" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -191,31 +219,7 @@
               <item name="BaRC" type="b2602c69:ProjectViewProjectNode" />
               <item name="BaRC" type="462c0819:PsiDirectoryNode" />
               <item name="source" type="462c0819:PsiDirectoryNode" />
-              <item name="runs" type="462c0819:PsiDirectoryNode" />
-              <item name="PlanarQuad-v0_backreach_17-Oct-2018_10-10-22" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="BaRC" type="b2602c69:ProjectViewProjectNode" />
-              <item name="BaRC" type="462c0819:PsiDirectoryNode" />
-              <item name="source" type="462c0819:PsiDirectoryNode" />
-              <item name="runs" type="462c0819:PsiDirectoryNode" />
-              <item name="PlanarQuad-v0_backreach_17-Oct-2018_10-10-22" type="462c0819:PsiDirectoryNode" />
-              <item name="figures" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="BaRC" type="b2602c69:ProjectViewProjectNode" />
-              <item name="BaRC" type="462c0819:PsiDirectoryNode" />
-              <item name="source" type="462c0819:PsiDirectoryNode" />
-              <item name="runs" type="462c0819:PsiDirectoryNode" />
-              <item name="PlanarQuad-v0_backreach_28-Oct-2018_17-51-41" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="BaRC" type="b2602c69:ProjectViewProjectNode" />
-              <item name="BaRC" type="462c0819:PsiDirectoryNode" />
-              <item name="source" type="462c0819:PsiDirectoryNode" />
-              <item name="runs" type="462c0819:PsiDirectoryNode" />
-              <item name="PlanarQuad-v0_backreach_28-Oct-2018_17-51-41" type="462c0819:PsiDirectoryNode" />
-              <item name="figures" type="462c0819:PsiDirectoryNode" />
+              <item name="train.py" type="8704e2dd:PyFileNode" />
             </path>
             <path>
               <item name="BaRC" type="b2602c69:ProjectViewProjectNode" />
@@ -252,33 +256,12 @@
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
               <item name="&lt; Remote Python 3.5.2 (sftp://xlv@cs-mars-01.cmpt.sfu.ca:22/usr/bin/python3.5) &gt;" type="70bed36:NamedLibraryElementNode" />
               <item name="-1110523131" type="d76c9d6b:PyRemoteLibrariesNode" />
-              <item name="-1802158183" type="788ab980:PyRemoteLibrariesNode$PyRemoteRootNode" />
-              <item name="backreach" type="462c0819:PsiDirectoryNode" />
-              <item name="car5d_interface.py" type="8704e2dd:PyFileNode" />
-            </path>
-            <path>
-              <item name="BaRC" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; Remote Python 3.5.2 (sftp://xlv@cs-mars-01.cmpt.sfu.ca:22/usr/bin/python3.5) &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="-1110523131" type="d76c9d6b:PyRemoteLibrariesNode" />
-              <item name="-1802158183" type="788ab980:PyRemoteLibrariesNode$PyRemoteRootNode" />
-              <item name="backreach" type="462c0819:PsiDirectoryNode" />
-              <item name="car5d_interface.py" type="8704e2dd:PyFileNode" />
-              <item name="Car5DBackreachEngine" type="dd8bbb05:PyElementNode" />
-            </path>
-            <path>
-              <item name="BaRC" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-              <item name="&lt; Remote Python 3.5.2 (sftp://xlv@cs-mars-01.cmpt.sfu.ca:22/usr/bin/python3.5) &gt;" type="70bed36:NamedLibraryElementNode" />
-              <item name="-1110523131" type="d76c9d6b:PyRemoteLibrariesNode" />
-              <item name="-1802158183" type="788ab980:PyRemoteLibrariesNode$PyRemoteRootNode" />
-              <item name="curriculum.py" type="8704e2dd:PyFileNode" />
+              <item name="201545290" type="788ab980:PyRemoteLibrariesNode$PyRemoteRootNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -305,7 +288,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.train">
+  <component name="RunManager" selected="Python.eval">
     <configuration name="eval" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="BaRC" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -370,8 +353,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.test" />
         <item itemvalue="Python.eval" />
+        <item itemvalue="Python.test" />
       </list>
     </recent_temporary>
   </component>
@@ -406,73 +389,56 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1152" height="644" extended-state="0" />
+    <frame x="-8" y="23" width="1152" height="644" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" weight="0.34108528" />
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.5008681" side_tool="true" weight="0.6886228" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="File Transfer" order="8" visible="true" weight="0.0" />
-      <window_info anchor="bottom" id="Version Control" order="7" weight="0.48062015" />
+      <window_info anchor="bottom" id="File Transfer" order="8" weight="0.24314442" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.47897622" />
       <window_info anchor="bottom" id="Python Console" order="7" weight="0.33953488" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49913195" weight="0.27286822" />
-      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49913195" weight="0.4372093" />
-      <window_info anchor="right" id="Remote Host" order="3" weight="0.36216217" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24414414" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49913195" visible="true" weight="0.14259598" />
+      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49913195" weight="0.1767442" />
+      <window_info anchor="right" id="Remote Host" order="3" weight="0.34504506" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22522523" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" weight="0.32972974" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="right" id="SciView" order="3" weight="0.5342342" />
+      <window_info anchor="right" id="SciView" order="3" weight="0.33333334" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.44186047" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.44186047" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.55575866" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="right" id="Remote Host" order="3" visible="true" weight="0.22432433" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.34324324" />
-      <window_info anchor="right" id="SciView" order="3" weight="0.5342342" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.34108528" />
-      <window_info active="true" anchor="bottom" id="Version Control" order="7" visible="true" weight="0.48062015" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49913195" weight="0.28992248" />
-      <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="right" id="Database" order="3" weight="0.32972974" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.5008681" side_tool="true" weight="0.6886228" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="File Transfer" order="8" weight="0.5364341" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49913195" weight="0.1767442" />
-      <window_info anchor="bottom" id="Python Console" order="7" weight="0.33953488" />
     </layout>
     <layout-to-restore>
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49913195" weight="0.36976048" />
-      <window_info active="true" anchor="right" id="Remote Host" order="3" visible="true" weight="0.22395833" />
-      <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19878472" />
+      <window_info anchor="bottom" id="Version Control" order="8" weight="0.47897622" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" id="Remote Host" order="3" weight="0.34054053" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24954955" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.34108528" />
-      <window_info anchor="bottom" id="Version Control" order="8" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.38922155" />
-      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.49913195" weight="0.4041916" />
-      <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.5008681" side_tool="true" weight="0.6886228" />
+      <window_info anchor="bottom" id="File Transfer" order="13" weight="0.24314442" />
       <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.34108528" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49913195" weight="0.32906765" />
+      <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="right" id="SciView" order="5" weight="0.5344523" />
-      <window_info anchor="bottom" id="File Transfer" order="13" visible="true" weight="0.33832335" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.4131627" />
+      <window_info anchor="right" id="Database" order="4" weight="0.32972974" />
+      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.49913195" weight="0.1767442" />
+      <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.5008681" side_tool="true" weight="0.6886228" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="right" id="SciView" order="5" weight="0.35495496" />
+      <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="right" id="Database" order="4" />
       <window_info anchor="bottom" id="Python Console" order="12" weight="0.33953488" />
     </layout-to-restore>
   </component>
@@ -495,9 +461,14 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/source/baselines/ppo1/pposgd_simple.py</url>
-          <line>203</line>
-          <option name="timeStamp" value="14" />
+          <url>file://$PROJECT_DIR$/source/backreach/quad6d_interface.py</url>
+          <line>466</line>
+          <option name="timeStamp" value="47" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/source/train.py</url>
+          <line>445</line>
+          <option name="timeStamp" value="49" />
         </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
@@ -510,65 +481,10 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="23" />
+      <option name="time" value="50" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/source/runs/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-line="1" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/train.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-7425">
-          <caret line="110" column="37" selection-start-line="110" selection-start-column="37" selection-end-line="110" selection-end-column="37" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-            <element signature="e#5497#8594#0" />
-            <element signature="e#8776#15617#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/train.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7376">
-          <caret line="461" column="31" lean-forward="true" selection-start-line="460" selection-start-column="21" selection-end-line="461" selection-end-column="31" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-            <element signature="e#5497#8594#0" />
-            <element signature="e#8776#15617#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/test.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="624">
-          <caret line="43" column="17" selection-start-line="43" selection-start-column="17" selection-end-line="43" selection-end-column="17" />
-          <folding>
-            <element signature="e#0#20#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/baselines/ppo1/mlp_policy.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1185">
-          <caret line="84" lean-forward="true" selection-start-line="84" selection-end-line="84" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Library/Caches/PyCharm2018.1/remote_sources/-1110523131/1357577176/baselines/common/tf_util.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4590">
-          <caret line="313" column="33" lean-forward="true" selection-start-line="313" selection-start-column="33" selection-end-line="313" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/Library/Caches/PyCharm2018.1/remote_sources/-1110523131/-1802158183/rl/ppo.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
@@ -775,15 +691,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/source/problem.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/source/data_logger.py">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -807,19 +714,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/source/rl/ppo.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/source/eval.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="78">
-          <caret line="58" column="13" selection-start-line="58" selection-start-column="13" selection-end-line="58" selection-end-column="13" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/source/baselines/ppo1/mlp_policy.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="827">
@@ -831,9 +725,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="624">
           <caret line="43" column="17" selection-start-line="43" selection-start-column="17" selection-end-line="43" selection-end-column="17" />
-          <folding>
-            <element signature="e#0#20#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -851,16 +742,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/source/curriculum.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="931">
-          <caret line="64" column="45" selection-start-line="64" selection-start-column="11" selection-end-line="64" selection-end-column="45" />
-          <folding>
-            <element signature="e#0#33#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/source/runs/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -870,36 +751,119 @@
     </entry>
     <entry file="file://$USER_HOME$/Library/Caches/PyCharm2018.1/remote_sources/-1110523131/-1802158183/backreach/car5d_interface.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="61">
-          <caret line="316" column="8" selection-start-line="316" selection-start-column="8" selection-end-line="316" selection-end-column="8" />
+        <state relative-caret-position="4099">
+          <caret line="326" column="23" selection-start-line="326" selection-start-column="12" selection-end-line="326" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/problem.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="196">
+          <caret line="26" column="13" selection-start-line="26" selection-start-column="13" selection-end-line="26" selection-end-column="13" />
+          <folding>
+            <element signature="e#0#10#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Caches/PyCharm2018.1/remote_sources/-1110523131/-1802158183/plotting_with_theta_sections.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-409">
+          <caret line="17" column="4" selection-start-line="17" selection-start-column="4" selection-end-line="17" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Caches/PyCharm2018.1/remote_sources/-1110523131/1405239563/matlab/engine/matlabengine.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="100">
+          <caret line="54" selection-start-line="54" selection-end-line="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="388">
+          <caret line="1663" selection-start-line="1663" selection-end-line="1663" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/backreach/Quad6D_create_init_target.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-70">
+          <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/backreach/Quad6D_approx_RS.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="880">
+          <caret line="55" column="77" lean-forward="true" selection-start-line="55" selection-start-column="77" selection-end-line="55" selection-end-column="77" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/backreach/getContour.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="346">
+          <caret line="27" column="14" selection-start-line="27" selection-start-column="14" selection-end-line="27" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Caches/PyCharm2018.1/remote_sources/-1110523131/201545290/posixpath.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="77">
+          <caret line="75" selection-start-line="75" selection-end-line="75" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/curriculum.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="704">
+          <caret line="44" selection-start-line="44" selection-end-line="44" />
+          <folding>
+            <element signature="e#0#33#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/backreach/Quad6D_recons_xy.m">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="214">
+          <caret line="22" selection-start-line="22" selection-end-line="22" />
         </state>
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/Library/Caches/PyCharm2018.1/remote_sources/-1110523131/-1802158183/curriculum.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="57" column="37" selection-start-line="57" selection-start-column="31" selection-end-line="57" selection-end-column="47" />
+        <state relative-caret-position="248">
+          <caret line="57" column="39" selection-start-line="57" selection-start-column="31" selection-end-line="57" selection-end-column="47" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/source/backreach/Quad6D_approx_RS.m">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/source/backreach/quad6d_interface.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="194" column="52" selection-start-line="194" selection-start-column="25" selection-end-line="194" selection-end-column="52" />
+        <state relative-caret-position="134">
+          <caret line="477" column="42" selection-start-line="477" selection-start-column="42" selection-end-line="477" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/source/eval.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="102" column="44" lean-forward="true" selection-start-line="102" selection-start-column="44" selection-end-line="102" selection-end-column="44" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/source/train.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="371">
-          <caret line="432" lean-forward="true" selection-start-line="432" selection-end-line="432" />
+        <state relative-caret-position="115">
+          <caret line="435" column="22" lean-forward="true" selection-start-line="435" selection-start-column="22" selection-end-line="435" selection-end-column="22" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
-            <element signature="e#5497#8594#0" />
-            <element signature="e#8776#15617#0" />
+            <element signature="e#5441#8538#0" />
+            <element signature="e#8720#15561#0" />
           </folding>
         </state>
       </provider>

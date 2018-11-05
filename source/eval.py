@@ -54,7 +54,7 @@ if args.type in ['backreach', 'random', 'ppo_only']:
 else:
     parser.error('"%s" is not in ["backreach", "random", "ppo_only"]!' % args.type);
 
-RUN_DIR = os.path.join(os.getcwd(), 'runs', 'PlanarQuad-v0_backreach_16-Oct-2018_23-31-06')
+RUN_DIR = os.path.join(os.getcwd(), 'runs', 'PlanarQuad-v0_backreach_04-Nov-2018_23-10-58')
 DATA_DIR = os.path.join(RUN_DIR, 'data')
 MODEL_DIR = os.path.join(DATA_DIR, 'model')
 EVAL_DIR = os.path.join(RUN_DIR,'eval')
@@ -92,7 +92,7 @@ if __name__ == "__main__":
 
 
         global_perf_metric = []
-        stop_iter = 20
+        stop_iter = 10
         for i in range(num_iters):
             if i < stop_iter:
                 eval_policy.load_model(MODEL_DIR,iteration=i)
