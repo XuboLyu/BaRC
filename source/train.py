@@ -536,11 +536,17 @@ def train_gridwise(**kwargs):
 
         # Ok, we've graduated!
         old_starts.extend(starts)
-        perf_metric,rollout_count = evaluate(pi_i,
-                             full_start_dist, 
-                             problem, 
-                             debug=debug, 
-                             figfile=os.path.join(FIGURES_DIR, 'eval_iter_%d' % i))
+
+        # Note: here I compute perf_metrix of multiple evaluation trials, not just one as before.
+        perf_metric_list = list()
+        for e_idx in range(100):
+            perf_metric, rollout_count = evaluate(pi_i,
+                                 full_start_dist,
+                                 problem,
+                                 debug=debug,
+                                 figfile=os.path.join(FIGURES_DIR, 'eval_iter_%d' % i))
+            perf_metric_list.append(perf_metric)
+        perf_metric = np.mean(perf_metric_list)
 
         # Note: here I save trained policy in each algo iter into pk file.
         # pkl.dump(pi_i, open(os.path.join(POLICY_DIR, 'policy_iter_%d' % i), 'wb'))

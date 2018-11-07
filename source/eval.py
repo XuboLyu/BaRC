@@ -54,7 +54,7 @@ if args.type in ['backreach', 'random', 'ppo_only']:
 else:
     parser.error('"%s" is not in ["backreach", "random", "ppo_only"]!' % args.type);
 
-RUN_DIR = os.path.join(os.getcwd(), 'runs', 'PlanarQuad-v0_backreach_04-Nov-2018_23-10-58')
+RUN_DIR = os.path.join(os.getcwd(), 'runs', 'PlanarQuad-v0_backreach_31-Oct-2018_20-37-33')
 DATA_DIR = os.path.join(RUN_DIR, 'data')
 MODEL_DIR = os.path.join(DATA_DIR, 'model')
 EVAL_DIR = os.path.join(RUN_DIR,'eval')
@@ -78,7 +78,7 @@ if __name__ == "__main__":
                                                          zero_idxs=[3, 4])
             elif args.gym_env == 'PlanarQuad-v0':
                 # NOTE: HERE I increase the iteration nums to see if the final performance is stable.
-                num_iters = 40
+                num_iters = 200
                 full_starts = [problem.env.unwrapped.start_state]
                 problem.env.unwrapped.set_hovering_goal(args.hover_at_end)
 
@@ -92,7 +92,7 @@ if __name__ == "__main__":
 
 
         global_perf_metric = []
-        stop_iter = 10
+        stop_iter = 5
         for i in range(num_iters):
             if i < stop_iter:
                 eval_policy.load_model(MODEL_DIR,iteration=i)

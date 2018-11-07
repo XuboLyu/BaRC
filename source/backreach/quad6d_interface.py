@@ -407,12 +407,14 @@ class Quad6DBackreachEngine:
 
             # Then, evaluate their sampling weights
             weights = np.abs(self.evaluate_value_function(potential_samples))
-            weights = np.reciprocal(weights)
-
             # Note: here I modify the weight method, from 'w = 1/value -> w = 1/sqrt(value)'
             # ------------------
             # weights = np.power(weights, 0.5)
+            avg_weight = np.mean(weights)
+            weights = weights + avg_weight
             # ------------------
+
+            weights = np.reciprocal(weights)
             weights /= np.sum(weights)
             sampled_idxs = np.random.choice(potential_samples.shape[0], 
                                             size=size,
